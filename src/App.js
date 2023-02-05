@@ -1,6 +1,6 @@
 // https://beta.reactjs.org/learn/tutorial-tic-tac-toe
 import { useState } from "react";
-
+import React from "react";
 // function Square() {
 // const [value, setValue] = useState(null);
 // Commented because I Lifted the state to Board component
@@ -56,7 +56,10 @@ export default function Board() {
     status = "Next player: " + (xIsNext ? "X" : "O");
   }
   return (
-    <>
+    // <>
+    // ^^^^ not working because Babel version:
+    // https://stackoverflow.com/questions/48316365/react-fragment-shorthand-failing-to-compile
+    <React.Fragment>
       <div className="status">{status}</div>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
@@ -76,7 +79,7 @@ export default function Board() {
       {status.match("Winner") && (
         <button onClick={handleNewGame}>New Game ?</button>
       )}
-    </>
+    </React.Fragment>
   );
 }
 
