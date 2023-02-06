@@ -37,10 +37,10 @@ export default function Board({ xIsNext, squares, onPlay, someoneWon/* , winnerC
     }
     // setSquares(nextSquares);
     // setXIsNext(!xIsNext);
-    onPlay(nextSquares);
-    console.log(nextSquares);
+    onPlay(nextSquares, i);
+    // console.log(nextSquares);
   }
-  
+
   function shouldHighlight(whichSquare) {
     if (!someoneWon) return false;
     console.log(someoneWon.winnerCoordinates);

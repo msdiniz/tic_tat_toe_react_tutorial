@@ -8,21 +8,18 @@ import React from "react";
 import Board from "./Board";
 
 export default function Game() {
-  const [history, setHistory] = useState([Array(9).fill(null)], []);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [location, setLocation] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   // const [xIsNext, setXIsNext] = useState(true);
   const xIsNext = currentMove % 2 === 0;
   // const currentSquares = history[history.length - 1];
   // Always the last move ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   const currentSquares = history[currentMove];
+  const [historyAscending, setHistoryAscending] = useState(true);
   // const [winnerCoordinates, setWinnerCoordinates] = useState(null);
 
   // https://stackoverflow.com/questions/46240647/how-to-force-a-functional-react-component-to-render
-  // const [ignored, forceUpdate] = useReducer(x => x + 1, 0);    
-  // const [seed, setSeed] = useState(1);
-  // const reset = () => {
-  //   setSeed(Math.random());
-  // }
   function handleNewGame() {
     // reset();
     window.location.reload();
@@ -32,9 +29,25 @@ export default function Game() {
     // setXIsNext(true);
   }
 
-  function handlePlay(nextSquares) {
+  function handlePlay(nextSquares, squareTouched) {
+    const locations = [
+      [1, 1],
+      [2, 1],
+      [3, 1],
+      [1, 2],
+      [2, 2],
+      [3, 2],
+      [1, 3],
+      [2, 3],
+      [3, 3]
+    ];
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory, currentSquares);
+
+    const coordinates = locations[squareTouched];
+    const nextLocation = [...location.slice(0, currentMove + 1), coordinates];
+    setLocation(nextLocation);
+
     setCurrentMove(nextHistory.length - 1);
     // setXIsNext(!xIsNext);
   }
@@ -42,6 +55,10 @@ export default function Game() {
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
     // setXIsNext(nextMove % 2 === 0);
+  }
+
+  function sortHistory() {
+    setHistoryAscending(!historyAscending);
   }
 
   function calculateWinner(squares) {
@@ -59,7 +76,7 @@ export default function Game() {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
         // setWinnerCoordinates([a, b, c]);
-        return {playerThatWon: squares[a], winnerCoordinates: [a, b, c]};
+        return { playerThatWon: squares[a], winnerCoordinates: [a, b, c] };
       }
     }
     return null;
@@ -78,14 +95,14 @@ export default function Game() {
   const moves = history.map((squares, move) => {
     let description;
     if (move > 0) {
-      description = `Go to move # ${move}: at (${history.slice(history.length - 2, history.length - 1)})`;
+      description = `Go to move # ${move}: at (${location[move]})`;
     } else {
       description = 'Go to game start';
     }
     return (
       <li key={move}>
         {move !== currentMove && <button onClick={() => jumpTo(move)}>{description}</button>}
-        {move === currentMove && <b>`You are at move #{move}`</b>}        
+        {move === currentMove && <b>`You are at move #{move}`</b>}
       </li>
     );
   });
@@ -98,10 +115,13 @@ export default function Game() {
           <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} someoneWon={winner} /* winnerCordinates={winnerCoordinates} */ />
         </div>
         <div className="game-info">
-          <ol>{moves}</ol>
+          <ol>{historyAscending ? moves : moves.reverse()}</ol>
+          <button onClick={() => sortHistory()}>
+            Sort by: {historyAscending ? "Ascending" : "Descending"}
+          </button>
         </div>
         <div>
-          {(status.match("Winner")|| status.match("Draw")) && (
+          {(status.match("Winner") || status.match("Draw")) && (
             <button onClick={handleNewGame}>New Game ?</button>
           )}
         </div>
