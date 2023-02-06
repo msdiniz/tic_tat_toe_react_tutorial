@@ -1,7 +1,8 @@
 // https://www.geeksforgeeks.org/how-to-build-a-tic-tac-toe-game-using-react-hooks/
 // https://beta.reactjs.org/learn/tutorial-tic-tac-toe
 // https://github.com/thiskevinwang/react-tictactoe-extras
-// https://codepen.io/msdiniz-the-sasster/pen/LYBaGRW?editors=0110
+// https://codepen.io/msdiniz-the-sasster/pen/LYBaGRW?editors=0110 (class)
+// https://codesandbox.io/s/tic-tac-toe-tutorial-react-with-enhancements-qbjrzb?file=/index.js (function)
 // import { useReducer } from "react";
 import { useState } from "react";
 import React from "react";
