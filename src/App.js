@@ -8,6 +8,7 @@ import React from "react";
 import Board from "./Board";
 
 export default function Game() {
+  // TODO: create Custom Hook unifying history and location 
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [location, setLocation] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
