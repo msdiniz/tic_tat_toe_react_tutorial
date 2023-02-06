@@ -11,7 +11,7 @@ import React from "react";
 // }
 function Square({ value, onSquareClick, highlight = false }) {
   return (
-    <button className={"square" + (highlight ? " highlight" : "")} onClick={onSquareClick}>
+    <button className={(highlight ? "win" : "square")} onClick={onSquareClick}>
       {value}
     </button>
   );
@@ -24,7 +24,7 @@ function Square({ value, onSquareClick, highlight = false }) {
 //   const [xIsNext, setXIsNext] = useState(true);
 //   const [squares, setSquares] = useState(Array(9).fill(null));
 
-export default function Board({ xIsNext, squares, onPlay, someoneWon, winnerCoordinates }) {
+export default function Board({ xIsNext, squares, onPlay, someoneWon/* , winnerCoordinates */ }) {
   function handleClick(i) {
     if (squares[i] || someoneWon) {
       return;
@@ -40,10 +40,11 @@ export default function Board({ xIsNext, squares, onPlay, someoneWon, winnerCoor
     onPlay(nextSquares);
     console.log(nextSquares);
   }
+  
   function shouldHighlight(whichSquare) {
     if (!someoneWon) return false;
-    console.log(winnerCoordinates);
-    return winnerCoordinates.indexOf(whichSquare) !== -1;
+    console.log(someoneWon.winnerCoordinates);
+    return someoneWon.winnerCoordinates.indexOf(whichSquare) !== -1;
   }
   
   function renderSquare(i) {
